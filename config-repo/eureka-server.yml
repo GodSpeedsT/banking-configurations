@@ -1,8 +1,6 @@
 # config-repo/eureka-server.yml
-# СПЕЦИФИЧНЫЕ НАСТРОЙКИ ДЛЯ EUREKA SERVER
-
 server:
-  port: 8761
+  port: 8761  # Убедитесь, что этот порт используется
 
 spring:
   application:
@@ -19,6 +17,7 @@ spring:
     enabled: false
   redis:
     enabled: false
+
 # Eureka Server Configuration
 eureka:
   client:
@@ -36,5 +35,4 @@ eureka:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
     response-cache-update-interval-ms: 30000
-
-  
+    wait-time-in-ms-when-sync-empty: 0  # Добавьте эту строку
