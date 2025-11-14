@@ -5,8 +5,8 @@ spring:
   # База данных
   datasource:
     url: jdbc:postgresql://localhost:5432/bank_deposits
-    username: ${DB_USERNAME:admin}
-    password: ${DB_PASSWORD:password}
+    username: admin
+    password: admin
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
