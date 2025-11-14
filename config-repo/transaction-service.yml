@@ -1,0 +1,73 @@
+# config-repo/transaction-service.yml
+# НАСТРОЙКИ ДЛЯ GO TRANSACTION SERVICE
+
+server:
+  port: 8083
+
+spring:
+  application:
+    name: transaction-service
+
+# Database Configuration
+database:
+  postgres:
+    host: localhost
+    port: 5432
+    name: bank_deposits
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:password}
+    max-open-conns: 10
+    max-idle-conns: 2
+    conn-max-lifetime: 300000
+    conn-max-idle-time: 60000
+
+# Redis Configuration
+redis:
+  host: localhost
+  port: 6379
+  password: ""
+  db: 0
+  pool-size: 10
+  min-idle-conns: 2
+
+# External Services
+services:
+  auth:
+    url: http://localhost:8081/auth
+    timeout: 5000
+  deposit:
+    url: http://localhost:8082/api
+    timeout: 5000
+  eureka:
+    url: http://localhost:8761/eureka/
+    enabled: true
+
+# Transaction Settings
+transaction:
+  max-retries: 3
+  timeout-seconds: 30
+  batch-size: 100
+  max-concurrent: 10
+
+# Interest Calculation
+interest:
+  calculation-time: "00:00"
+  tax-rate: 13.0
+  batch-size: 50
+
+# Notification Settings
+notification:
+  email-enabled: true
+  sms-enabled: false
+  email-from: masterov_k@bk.ru
+  sms-provider-url: ""
+  retry-attempts: 3
+  retry-delay: 5000
+
+# Logging
+log:
+  level: "info"
+  file: "logs/transaction-service.log"
+  max-size: 100
+  max-backups: 7
+  max-age: 30

@@ -1,0 +1,40 @@
+# config-repo/eureka-server.yml
+# СПЕЦИФИЧНЫЕ НАСТРОЙКИ ДЛЯ EUREKA SERVER
+
+server:
+  port: 8761
+
+spring:
+  application:
+    name: eureka-server
+  
+  # Eureka не использует БД и Redis
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
+  datasource:
+    url: none
+  jpa:
+    enabled: false
+  redis:
+    enabled: false
+# Eureka Server Configuration
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  
+  instance:
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+  
+  server:
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 5000
+    response-cache-update-interval-ms: 30000
+
+  

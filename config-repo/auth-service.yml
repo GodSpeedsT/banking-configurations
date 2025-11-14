@@ -1,0 +1,57 @@
+# config-repo/auth-service.yml
+# СПЕЦИФИЧНЫЕ НАСТРОЙКИ ДЛЯ AUTH SERVICE
+
+server:
+  port: 8081
+  servlet:
+    context-path: /auth
+
+spring:
+  application:
+    name: auth-service
+  
+  # Security
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/auth
+  
+  # Специфичные JPA настройки
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:mySuperSecretKeyForBankAuthService2024}
+  expiration: 86400000  # 24 hours
+  refresh-token-expiration: 2592000000  # 30 days
+
+# OAuth2 Clients
+security:
+  oauth2:
+    client:
+      registration:
+        web-client:
+          client-id: web-client
+          client-secret: ${CLIENT_SECRET:secret}
+          authorization-grant-type: password
+          scope: read,write
+          access-token-validity-seconds: 3600
+          refresh-token-validity-seconds: 2592000
+        mobile-client:
+          client-id: mobile-client
+          client-secret: ${MOBILE_SECRET:mobilesecret}
+          authorization-grant-type: password
+          scope: read
+
+# Password Policy
+password:
+  policy:
+    min-length: 8
+    require-uppercase: true
+    require-lowercase: true
+    require-digits: true
+    require-special-chars: true
