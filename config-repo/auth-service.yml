@@ -15,12 +15,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/auth
+          issuer-uri: http://auth-service:8081/auth
   
   # Специфичные JPA настройки
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
 
 # JWT Configuration
