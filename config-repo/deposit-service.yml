@@ -1,6 +1,4 @@
 # config-repo/deposit-service.yml
-# СПЕЦИФИЧНЫЕ НАСТРОЙКИ ДЛЯ DEPOSIT SERVICE
-
 server:
   port: 8082
   servlet:
@@ -10,52 +8,44 @@ spring:
   application:
     name: deposit-service
   
-  # OAuth2 Resource Server
+  # OAuth2 Resource Server Configuration
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8081/auth
+          issuer-uri: http://auth-service:8081/auth
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/.well-known/jwks.json
+  
+  # Специфичные настройки JPA для deposit-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        show_sql: true
 
 # Business Configuration
-deposit:
-  settings:
-    max-amount: 1000000
-    min-amount: 1000
-    max-active-deposits: 5
-    auto-renewal-enabled: true
-  
-  # Deposit Types
-  types:
-    savings:
-      name: "Накопительный"
-      min-amount: 1000
+app:
+  deposit:
+    settings:
       max-amount: 1000000
-      interest-rate: 5.5
-      duration-days: 365
-      early-withdrawal-penalty: 1.0
-      capitalization: true
+      min-amount: 1000
+      max-active-deposits: 5
+      auto-renewal-enabled: true
     
-    fixed-term:
-      name: "Срочный"
-      min-amount: 50000
-      max-amount: 500000
-      interest-rate: 7.0
-      duration-days: 730
-      early-withdrawal-penalty: 2.0
-      capitalization: false
-    
-    demand:
-      name: "До востребования"
-      min-amount: 100
-      max-amount: 10000000
-      interest-rate: 1.5
-      duration-days: 0
-      early-withdrawal-penalty: 0.0
-      capitalization: false
+    # Interest Calculation
+    interest:
+      calculation-time: "00:00"
+      tax-rate: 13.0
+      rounding-scale: 2
+      days-in-year: 365
 
-# Interest Calculation
-interest:
-  calculation-time: "00:00"
-  tax-rate: 13.0
-  rounding-scale: 2
+# Logging specific for deposit service
+logging:
+  level:
+    org.work.depositservice: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: DEBUG
