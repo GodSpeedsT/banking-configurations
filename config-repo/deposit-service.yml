@@ -1,4 +1,3 @@
-# config-repo/deposit-service.yml
 server:
   port: 8082
   servlet:
@@ -7,8 +6,12 @@ server:
 spring:
   application:
     name: deposit-service
-  
-  # OAuth2 Resource Server Configuration
+
+  datasource:
+    url: jdbc:postgresql://postgres-deposit:5432/deposit_service
+    username: deposit
+    password: deposit
+    
   security:
     oauth2:
       resourceserver:
@@ -16,7 +19,6 @@ spring:
           issuer-uri: http://auth-service:8081/auth
           jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/.well-known/jwks.json
   
-  # Специфичные настройки JPA для deposit-service
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,7 +29,6 @@ spring:
         format_sql: true
         show_sql: true
 
-# Business Configuration
 app:
   deposit:
     settings:
@@ -36,14 +37,12 @@ app:
       max-active-deposits: 5
       auto-renewal-enabled: true
     
-    # Interest Calculation
     interest:
       calculation-time: "00:00"
       tax-rate: 13.0
       rounding-scale: 2
       days-in-year: 365
 
-# Logging specific for deposit service
 logging:
   level:
     org.work.depositservice: DEBUG
