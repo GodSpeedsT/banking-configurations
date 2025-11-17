@@ -1,0 +1,33 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: web-service
+  
+  # Production настройки Thymeleaf
+  thymeleaf:
+    cache: true
+  
+  resources:
+    chain:
+      cache: true
+      compressed: true
+
+services:
+  auth:
+    url: http://auth-service:8081/auth
+    timeout: 10000
+  deposit:
+    url: http://deposit-service:8082/api
+    timeout: 10000
+  transaction:
+    url: http://transaction-service:8083
+    timeout: 10000
+
+logging:
+  level:
+    org.bank.ui: INFO
+    org.springframework: INFO
+  file:
+    name: logs/web-ui-service.log
