@@ -1,14 +1,10 @@
+# config-repo/web-service.yml
 server:
   port: 8080
 
 spring:
-  application:
-    name: web-service
-  
-  # Production настройки Thymeleaf
   thymeleaf:
     cache: true
-  
   resources:
     chain:
       cache: true
@@ -25,9 +21,17 @@ services:
     url: http://transaction-service:8083
     timeout: 10000
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
 logging:
   level:
     org.bank.ui: INFO
-    org.springframework: INFO
-  file:
-    name: logs/web-ui-service.log
