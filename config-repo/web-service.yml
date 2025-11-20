@@ -14,12 +14,12 @@ services:
   auth:
     url: http://auth-service:8081/auth
     timeout: 10000
-  deposit:
-    url: http://deposit-service:8082/api
-    timeout: 10000
-  transaction:
-    url: http://transaction-service:8083
-    timeout: 10000
+  # deposit:
+  #   url: http://deposit-service:8082/api
+  #   timeout: 10000
+  # transaction:
+  #   url: http://transaction-service:8083
+  #   timeout: 10000
 
 eureka:
   client:
