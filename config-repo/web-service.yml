@@ -1,18 +1,22 @@
-# config-repo/web-service.yml
 server:
   port: 8080
+  servlet:
+    context-path: /
 
 spring:
+  application:
+    name: web-service
   thymeleaf:
-    cache: true
-  resources:
-    chain:
-      cache: true
-      compressed: true
+    cache: false
+    prefix: classpath:/templates/
+  web:
+    resources:
+      static-locations: classpath:/static/
 
+# Конфигурация сервисов
 services:
   auth:
-    url: http://auth-service:8081/auth
+    url: http://auth-service:8081
     timeout: 10000
   # deposit:
   #   url: http://deposit-service:8082/api
@@ -21,17 +25,19 @@ services:
   #   url: http://transaction-service:8083
   #   timeout: 10000
 
-eureka:
-  client:
-    service-url:
-      defaultZone: http://eureka-server:8761/eureka/
+# Логирование
+logging:
+  level:
+    org.example.webservice: DEBUG
+    org.springframework.web: INFO
+    org.springframework.security: INFO
 
+# Actuator для здоровья приложения
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics
-
-logging:
-  level:
-    org.bank.ui: INFO
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
