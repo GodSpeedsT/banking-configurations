@@ -16,17 +16,20 @@ spring:
     oauth2:
       client:
         registration:
-          # Имя регистрации (используется в URL-редиректе, например: /oauth2/authorization/web-client)
           web-client:
-            client-id: web-client # Должно совпадать с тем, что зарегистрировано в Auth Service
-            client-secret: secret  # Должно совпадать с тем, что зарегистрировано в Auth Service
-            client-authentication-method: basic
-            authorization-grant-type: authorization_code # Используем стандартный OIDC флоу
-            # {baseUrl} будет автоматически заменен на http://localhost:8080
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}" 
-            scope: openid, profile, read, write # Запрашиваемые права
+            client-id: web-client
+            client-secret: secret
+            client-authentication-method: client_secret_basic
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid, profile
         provider:
-          # Имя провайдера (используется для внутренних настроек)
+          web-client:
+            authorization-uri: http://localhost:8081/oauth2/authorize
+            token-uri: http://localhost:8081/oauth2/token
+            user-info-uri: http://localhost:8081/auth/user/info  # Ваш кастомный эндпоинт
+            user-name-attribute: sub
+            jwk-set-uri: http://localhost:8081/oauth2/jwks
           bank-auth-server:
             # URI эмитента — публичный адрес Auth Server'а (localhost для локальной проверки)
             issuer-uri: http://localhost:8081/auth 
