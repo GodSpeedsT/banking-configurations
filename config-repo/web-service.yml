@@ -1,7 +1,7 @@
 # config-repo/web-service.yml
 
 server:
-  port: 8080
+  port: 8080 # Локальный порт для Web-Service
   servlet:
     context-path: /
 
@@ -9,69 +9,88 @@ spring:
   application:
     name: web-service
     
-  # 1. ДОБАВЛЯЕМ OAuth2 Client конфигурацию
+  # =================================================================
+  # 1. SPRING SECURITY: OAUTH2 CLIENT CONFIGURATION (ОСНОВНОЕ)
+  # =================================================================
   security:
     oauth2:
       client:
         registration:
+          # Имя регистрации (используется в URL-редиректе, например: /oauth2/authorization/web-client)
           web-client:
-            client-id: web-client
-            client-secret: secret
+            client-id: web-client # Должно совпадать с тем, что зарегистрировано в Auth Service
+            client-secret: secret  # Должно совпадать с тем, что зарегистрировано в Auth Service
             client-authentication-method: basic
-            authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid, profile, read, write
+            authorization-grant-type: authorization_code # Используем стандартный OIDC флоу
+            # {baseUrl} будет автоматически заменен на http://localhost:8080
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}" 
+            scope: openid, profile, read, write # Запрашиваемые права
         provider:
+          # Имя провайдера (используется для внутренних настроек)
           bank-auth-server:
-            # Ссылка на локальный Auth Server
-            issuer-uri: http://localhost:8081/auth
-            
-  thymeleaf:
-    cache: false
-  web:
-    resources:
-      static-locations: classpath:/static/
+            # URI эмитента — публичный адрес Auth Server'а (localhost для локальной проверки)
+            issuer-uri: http://localhost:8081/auth 
 
-# 2. Корректируем URL для ApiService (для регистрации)
-api:
-  # ИСПРАВЛЕНО: используем localhost для прямого обращения к Auth-Service API (для регистрации)
-  auth-service-url: http://localhost:8081/auth 
-  
-# ... (остальные настройки)
+  # =================================================================
+  # 2. WEB, THYMELEAF & RESOURCES
+  # =================================================================
   thymeleaf:
-    cache: false
+    cache: false # Отключаем кэш Thymeleaf для упрощения локальной разработки
     prefix: classpath:/templates/
   web:
     resources:
       static-locations: classpath:/static/
-api:
-  # ИСПРАВЛЕНО: используем localhost для прямого обращения к Auth-Service API (для регистрации)
-  auth-service-url: http://localhost:8081/auth
-# Конфигурация сервисов
-services:
-  auth:
-    url: http://auth-service:8081
-    timeout: 10000
-  # deposit:
-  #   url: http://deposit-service:8082/api
-  #   timeout: 10000
-  # transaction:
-  #   url: http://transaction-service:8083
-  #   timeout: 10000
 
-# Логирование
+# =================================================================
+# 3. API SERVICE URLs
+# =================================================================
+# Эти URL используются в классе ApiService для прямых вызовов API 
+# (например, для регистрации, которая не идет через OAuth2).
+api:
+  # URL для Auth Service (для регистрации/прямых API вызовов)
+  auth-service-url: http://localhost:8081/auth 
+  
+  # URL для Resource Server'ов (если Web Service будет вызывать их напрямую)
+  deposit-service-url: http://localhost:8082/api
+  transaction-service-url: http://localhost:8083/api
+  
+  # Установка таймаута для RestTemplate (для всех сервисов)
+  timeout: 10000
+
+# =================================================================
+# 4. EUREKA CLIENT
+# =================================================================
+eureka:
+  client:
+    # Eureka Client получит defaultZone из общего application.yml, 
+    # но можно переопределить здесь, если требуется:
+    # service-url:
+    #   defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: false # В локальной среде лучше использовать hostname
+    # lease-renewal-interval-in-seconds: 5 # Получено из общего application.yml
+
+# =================================================================
+# 5. LOGGING
+# =================================================================
 logging:
   level:
+    # Увеличиваем уровень логирования для Security, чтобы видеть, что происходит с токенами
+    org.springframework.security: DEBUG
     org.example.webservice: DEBUG
     org.springframework.web: INFO
-    org.springframework.security: INFO
-
-# Actuator для здоровья приложения
+    
+# =================================================================
+# 6. ACTUATOR
+# =================================================================
 management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,metrics
   endpoint:
     health:
       show-details: always
+      show-components: always
