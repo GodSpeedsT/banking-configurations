@@ -1,3 +1,5 @@
+# config-repo/web-service.yml
+
 server:
   port: 8080
   servlet:
@@ -6,13 +8,45 @@ server:
 spring:
   application:
     name: web-service
+    
+  # 1. ДОБАВЛЯЕМ OAuth2 Client конфигурацию
+  security:
+    oauth2:
+      client:
+        registration:
+          web-client:
+            client-id: web-client
+            client-secret: secret
+            client-authentication-method: basic
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid, profile, read, write
+        provider:
+          bank-auth-server:
+            # Ссылка на локальный Auth Server
+            issuer-uri: http://localhost:8081/auth
+            
+  thymeleaf:
+    cache: false
+  web:
+    resources:
+      static-locations: classpath:/static/
+
+# 2. Корректируем URL для ApiService (для регистрации)
+api:
+  # ИСПРАВЛЕНО: используем localhost для прямого обращения к Auth-Service API (для регистрации)
+  auth-service-url: http://localhost:8081/auth 
+  
+# ... (остальные настройки)
   thymeleaf:
     cache: false
     prefix: classpath:/templates/
   web:
     resources:
       static-locations: classpath:/static/
-
+api:
+  # ИСПРАВЛЕНО: используем localhost для прямого обращения к Auth-Service API (для регистрации)
+  auth-service-url: http://localhost:8081/auth
 # Конфигурация сервисов
 services:
   auth:
