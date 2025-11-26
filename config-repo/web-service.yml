@@ -25,11 +25,11 @@ spring:
             scope: openid, profile
         provider:
           web-client:
-            authorization-uri: http://localhost:8081/oauth2/authorize
-            token-uri: http://localhost:8081/oauth2/token
-            user-info-uri: http://localhost:8081/auth/user/info  # Ваш кастомный эндпоинт
+            authorization-uri: http://localhost:8081/auth/oauth2/authorize
+            token-uri: http://localhost:8081/auth/oauth2/token
+            user-info-uri: http://localhost:8081/auth/userinfo
             user-name-attribute: sub
-            jwk-set-uri: http://localhost:8081/oauth2/jwks
+            jwk-set-uri: http://localhost:8081/auth/oauth2/jwks
           bank-auth-server:
             # URI эмитента — публичный адрес Auth Server'а (localhost для локальной проверки)
             issuer-uri: http://localhost:8081/auth 
