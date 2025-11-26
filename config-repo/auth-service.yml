@@ -28,22 +28,22 @@ jwt:
   expiration: 86400000  # 24 hours
   refresh-token-expiration: 2592000000  # 30 days
 
-security:
-  oauth2:
-    client:
-      registration:
-        web-client:
-          client-id: web-client
-          client-secret: secret
-          authorization-grant-type: password
-          scope: read,write
-          access-token-validity-seconds: 3600
-          refresh-token-validity-seconds: 2592000
-        mobile-client:
-          client-id: mobile-client
-          client-secret: mobillesecret
-          authorization-grant-type: password
-          scope: read
+# security:
+#   oauth2:
+#     client:
+#       registration:
+#         web-client:
+#           client-id: web-client
+#           client-secret: secret
+#           authorization-grant-type: password
+#           scope: read,write
+#           access-token-validity-seconds: 3600
+#           refresh-token-validity-seconds: 2592000
+#         mobile-client:
+#           client-id: mobile-client
+#           client-secret: mobillesecret
+#           authorization-grant-type: password
+#           scope: read
 
 password:
   policy:
