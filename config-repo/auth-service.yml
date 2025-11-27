@@ -11,39 +11,50 @@ spring:
     url: jdbc:postgresql://localhost:5432/auth_service
     username: admin
     password: admin
-    
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8081/auth
   
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-jwt:
-  secret: testpassword
-  expiration: 86400000  # 24 hours
-  refresh-token-expiration: 2592000000  # 30 days
+  security:
+    oauth2:
+      authorization-server:
+        client:
+          web-client:
+            registration:
+              client-id: web-client
+              client-secret: secret
+              authorization-grant-types: 
+                - client_credentials
+                - authorization_code
+                - refresh_token
+              scopes: 
+                - openid
+                - profile
+                - read
+                - write
+              redirect-uris: 
+                - http://localhost:8080/login/oauth2/code/web-client
+            require-authorization-consent: false
 
-# security:
-#   oauth2:
-#     client:
-#       registration:
-#         web-client:
-#           client-id: web-client
-#           client-secret: secret
-#           authorization-grant-type: password
-#           scope: read,write
-#           access-token-validity-seconds: 3600
-#           refresh-token-validity-seconds: 2592000
-#         mobile-client:
-#           client-id: mobile-client
-#           client-secret: mobillesecret
-#           authorization-grant-type: password
-#           scope: read
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.work.authservice: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+      show-components: always
 
 password:
   policy:
