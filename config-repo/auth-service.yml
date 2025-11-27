@@ -16,32 +16,8 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  # ПРАВИЛЬНАЯ конфигурация Authorization Server
-  security:
-    oauth2:
-      authorization-server:
-        client:
-          web-client:
-            client-id: web-client
-            client-secret: secret
-            authorization-grant-types: 
-              - client_credentials
-              - authorization_code
-              - refresh_token
-            scopes: 
-              - openid
-              - profile
-              - read
-              - write
-            redirect-uris: 
-              - http://localhost:8080/login/oauth2/code/web-client
-            require-authorization-consent: false
-            client-authentication-methods:  # ← ДОБАВЬТЕ ЭТУ СЕКЦИЮ!
-              - client_secret_basic
+# УДАЛИТЕ ВСЮ СЕКЦИЮ spring.security.oauth2.authorization-server
 
 logging:
   level:
