@@ -10,23 +10,17 @@ spring:
             client-id: web-client
             client-secret: secret
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: openid,profile,read,write
-            # УДАЛИТЕ issuer-uri и добавьте явные настройки:
+            redirect-uri: "http://localhost:8080/login/oauth2/code/web-client"
+            scope: openid,profile
         provider:
           web-client:
-            authorization-uri: http://localhost:8081/auth/oauth2/authorize
-            token-uri: http://localhost:8081/auth/oauth2/token
-            user-info-uri: http://localhost:8081/auth/userinfo
-            jwk-set-uri: http://localhost:8081/auth/oauth2/jwks
+            authorization-uri: http://localhost:8081/oauth2/authorize
+            token-uri: http://localhost:8081/oauth2/token
+            user-info-uri: http://localhost:8081/userinfo
+            jwk-set-uri: http://localhost:8081/oauth2/jwks
             user-name-attribute: sub
 
-  # =================================================================
-  # 2. WEB, THYMELEAF & RESOURCES
-  # =================================================================
-  thymeleaf:
-    cache: false # Отключаем кэш Thymeleaf для упрощения локальной разработки
-    prefix: classpath:/templates/
+  # УДАЛИТЕ thymeleaf настройки если не используете Thymeleaf
   web:
     resources:
       static-locations: classpath:/static/
