@@ -9,6 +9,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/auth_service
     username: admin
     password: admin
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
     
   jpa:
     hibernate:
@@ -18,14 +22,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+        default_schema: public
+    open-in-view: false
 
-  security:
-    oauth2:
-      authorizationserver:
-        endpoint:
-          token-issuer: http://localhost:8081
-
-# Eureka Client настройки (только для клиентских сервисов)
+# Eureka Client настройки
 eureka:
   client:
     service-url:
@@ -43,6 +43,7 @@ logging:
     org.springframework.security: DEBUG
     org.work.authservice: DEBUG
     org.springframework.security.oauth2: DEBUG
+    org.hibernate.SQL: DEBUG
 
 management:
   endpoints:
