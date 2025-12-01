@@ -1,33 +1,28 @@
-# config-repo/eureka-server.yml
 server:
-  port: 8761  # Убедитесь, что этот порт используется
+  port: 8761
 
 spring:
   application:
     name: eureka-server
   
-  # Eureka не использует БД и Redis
+  # Отключаем автоконфигурацию для Eureka Server
   autoconfigure:
     exclude:
       - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
       - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-  datasource:
-    url: none
-  jpa:
-    enabled: false
-  redis:
-    enabled: false
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 
-# Eureka Server Configuration
+# Настройки Eureka Server
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: false  # Важно: не регистрируется сам в себе
+    fetch-registry: false        # Не получает реестр
     service-url:
       defaultZone: http://localhost:8761/eureka/
   
   instance:
     hostname: localhost
+    prefer-ip-address: false
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
   
@@ -35,4 +30,4 @@ eureka:
     enable-self-preservation: false
     eviction-interval-timer-in-ms: 5000
     response-cache-update-interval-ms: 30000
-    wait-time-in-ms-when-sync-empty: 0  # Добавьте эту строку
+    wait-time-in-ms-when-sync-empty: 0
