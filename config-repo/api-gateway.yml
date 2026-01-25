@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/auth/**, /userinfo/**
+        - id: deposit-service
+          uri: lb://deposit-service
+          predicates:
+            - Path=/api/deposits/**, /api/accounts/**
+          filters:
+            - TokenRelay
+  session:
+    store-type: redis
