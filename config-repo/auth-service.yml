@@ -9,7 +9,21 @@ spring:
     url: jdbc:postgresql://localhost:5432/auth_service
     username: admin
     password: admin
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.postgresql.Driverserver:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://auth-db:5432/auth_db
+    username: user
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      authorizationserver:
+        issuer: http://auth-service:8081 
     hikari:
       maximum-pool-size: 10
       minimum-idle: 2
@@ -25,7 +39,6 @@ spring:
         default_schema: public
     open-in-view: false
 
-# Eureka Client настройки
 eureka:
   client:
     service-url:
