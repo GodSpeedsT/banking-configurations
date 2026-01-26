@@ -2,18 +2,32 @@ server:
   port: 8080
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          web-client: 
+            provider: my-auth-server
+            client-id: web-client
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8080/login/oauth2/code/web-client"
+            scope: openid,profile,read,write
+        provider:
+          my-auth-server:
+            issuer-uri: http://auth-service:8081 
   cloud:
     gateway:
       routes:
         - id: auth-service
           uri: lb://AUTH-SERVICE 
           predicates:
-            - Path=/auth/**, /userinfo/**
+            - Path=/auth/**, /oauth2/**, /login/** 
         - id: deposit-service
           uri: lb://DEPOSIT-SERVICE 
           predicates:
             - Path=/api/deposits/**, /api/accounts/**
           filters:
-            - TokenRelay
+            - TokenRelay 
   session:
     store-type: redis
