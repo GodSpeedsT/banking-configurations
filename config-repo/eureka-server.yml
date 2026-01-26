@@ -3,9 +3,9 @@ server:
 
 eureka:
   instance:
-    hostname: eureka-server
+    hostname: bank-eureka-server
   client:
-    registerWithEureka: false
-    fetchRegistry: false
+    registerWithEureka: false 
+    fetchRegistry: false      
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://bank-eureka-server:8761/eureka/
