@@ -24,8 +24,8 @@ spring:
               - write
         provider:
           my-auth-server:
-            issuer-uri: http://bank-auth-service:8081
-            jwk-set-uri: http://bank-auth-service:8081/oauth2/jwks
+            issuer-uri: http://localhost:8081
+            jwk-set-uri: http://localhost:8081/oauth2/jwks
   cloud:
     gateway:
       routes:
