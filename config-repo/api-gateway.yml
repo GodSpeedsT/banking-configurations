@@ -14,7 +14,7 @@ spring:
           keycloak:
             provider: keycloak-provider
             client-id: web-client
-            client-secret: h3YPrZbWEwz8hzWC0G810Uyk9VYQ0k3L
+            client-secret: SUtRkmXr67PwNi2f4PlnMhQjjDx7TmZC
             authorization-grant-type: authorization_code
             scope: 
               - openid
