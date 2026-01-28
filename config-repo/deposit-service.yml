@@ -10,4 +10,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://AUTH-SERVICE/auth
+          issuer-uri: http://bank-keycloak:8080/realms/bank-realm
