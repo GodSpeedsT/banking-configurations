@@ -26,6 +26,9 @@ spring:
             issuer-uri: http://bank-keycloak:8080/realms/bank-realm
   cloud:
     gateway:
+      httpclient:
+        connect-timeout: 10000
+        response-timeout: 10s
       routes:
         - id: deposit-service
           uri: lb://DEPOSIT-SERVICE
