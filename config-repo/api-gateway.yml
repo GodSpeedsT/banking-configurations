@@ -30,6 +30,6 @@ spring:
         - id: deposit-service
           uri: lb://DEPOSIT-SERVICE
           predicates:
-            - Path=/api/deposits/**, /api/accounts/**
+            - Path=/api/deposits/**, /api/accounts/**, /api/deposit-types/**
           filters:
             - TokenRelay
