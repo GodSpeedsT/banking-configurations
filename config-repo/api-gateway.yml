@@ -22,14 +22,15 @@ spring:
           keycloak-provider:
             
             authorization-uri: http://localhost:8084/realms/bank-realm/protocol/openid-connect/auth
-            
+            # Серверные вызовы делаем через внутреннюю сеть Docker
             token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
-            
-            issuer-uri: http://localhost:8084/realms/bank-realm
-            
             jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-            
             user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo
+            # Issuer должен быть доступен и Gateway, и браузеру. 
+            # Часто проще всего прописать в C:\Windows\System32\drivers\etc\hosts:
+            # 127.0.0.1 bank-keycloak
+            # И везде использовать http://bank-keycloak:8080
+            issuer-uri: http://bank-keycloak:8080/realms/bank-realm
   cloud:
     gateway:
       routes:
