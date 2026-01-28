@@ -21,7 +21,7 @@ spring:
         provider:
           keycloak-provider:
             
-            authorization-uri: http://localhost:8084/realms/bank-realm/protocol/openid-connect/auth
+            authorization-uri: http://bank-keycloak:8084/realms/bank-realm/protocol/openid-connect/auth
             # Серверные вызовы делаем через внутреннюю сеть Docker
             token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
             jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
