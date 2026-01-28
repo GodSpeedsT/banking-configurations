@@ -10,4 +10,5 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://bank-keycloak:8080/realms/bank-realm
+          issuer-uri: http://localhost:8084/realms/bank-realm
+          jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
