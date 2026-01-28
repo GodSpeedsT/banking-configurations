@@ -11,27 +11,22 @@ spring:
     oauth2:
       client:
         registration:
-          keycloak: # Этот ID используется в ссылках (registrationId)
+          keycloak:
             provider: keycloak-provider
             client-id: web-client
-            client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw # Проверь, что здесь нет лишних пробелов
+            client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw 
             authorization-grant-type: authorization_code
             scope:
               - openid
               - profile
               - email
-            # Важно: этот URI должен быть в белом списке Keycloak (Valid Redirect URIs)
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
         provider:
           keycloak-provider:
-            # Адрес для БРАУЗЕРА (localhost, т.к. браузер снаружи докера)
             authorization-uri: http://localhost:8084/realms/bank-realm/protocol/openid-connect/auth
-            # Адреса для GATEWAY (внутренние имена контейнеров)
             token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
             issuer-uri: http://bank-keycloak:8080/realms/bank-realm
             jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-            user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo
-  
   cloud:
     gateway:
       routes:
@@ -40,4 +35,4 @@ spring:
           predicates:
             - Path=/api/deposits/**, /api/accounts/**, /api/deposit-types/**
           filters:
-            - TokenRelay # Передает JWT токен дальше в микросервисы
+            - TokenRelay 
