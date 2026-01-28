@@ -4,9 +4,6 @@ server:
 spring:
   session:
     store-type: redis
-  redis:
-    host: bank-redis
-    port: 6379
   security:
     oauth2:
       client:
@@ -14,7 +11,7 @@ spring:
           keycloak:
             provider: keycloak-provider
             client-id: web-client
-            client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw 
+            client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw
             authorization-grant-type: authorization_code
             scope:
               - openid
@@ -23,16 +20,17 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
         provider:
           keycloak-provider:
-           
+            
             authorization-uri: http://localhost:8084/realms/bank-realm/protocol/openid-connect/auth
             
             token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
             
             issuer-uri: http://localhost:8084/realms/bank-realm
-           
+            
             jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-           
-            user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo  cloud:
+            
+            user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo
+  cloud:
     gateway:
       routes:
         - id: deposit-service
@@ -40,4 +38,8 @@ spring:
           predicates:
             - Path=/api/deposits/**, /api/accounts/**, /api/deposit-types/**
           filters:
-            - TokenRelay 
+            - TokenRelay
+  data:
+    redis:
+      host: bank-redis
+      port: 6379
