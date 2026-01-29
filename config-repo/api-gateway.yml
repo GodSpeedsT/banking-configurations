@@ -46,4 +46,4 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://bank-eureka:8761/eureka
+      defaultZone: http://bank-eureka-server:8761/eureka
