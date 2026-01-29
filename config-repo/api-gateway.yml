@@ -1,13 +1,4 @@
 spring:
-  application:
-    name: bank-gateway
-
-  profiles:
-    active: docker
-
-  config:
-    import: optional:configserver:http://bank-config-server:8888
-
   session:
     store-type: redis
     timeout: 30m
