@@ -1,46 +1,49 @@
-server:
-  port: 8080
-
 spring:
+  application:
+    name: bank-gateway
+
+  profiles:
+    active: docker
+
+  config:
+    import: optional:configserver:http://bank-config-server:8888
+
   session:
     store-type: redis
-  security:
-    oauth2:
-      client:
-        registration:
-          keycloak:
-            provider: keycloak-provider
-            client-id: web-client
-            client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw
-            authorization-grant-type: authorization_code
-            scope:
-              - openid
-              - profile
-              - email
-            redirect-uri: "{baseUrl}/login/oauth2/code/keycloak"
-        provider:
-          keycloak-provider:
-            
-            authorization-uri: http://bank-keycloak:8084/realms/bank-realm/protocol/openid-connect/auth
-            # Серверные вызовы делаем через внутреннюю сеть Docker
-            token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
-            jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-            user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo
-            # Issuer должен быть доступен и Gateway, и браузеру. 
-            # Часто проще всего прописать в C:\Windows\System32\drivers\etc\hosts:
-            # 127.0.0.1 bank-keycloak
-            # И везде использовать http://bank-keycloak:8080
-            issuer-uri: http://bank-keycloak:8080/realms/bank-realm
-  cloud:
-    gateway:
-      routes:
-        - id: deposit-service
-          uri: lb://DEPOSIT-SERVICE
-          predicates:
-            - Path=/api/deposits/**, /api/accounts/**, /api/deposit-types/**
-          filters:
-            - TokenRelay
+    timeout: 30m
+
   data:
     redis:
       host: bank-redis
       port: 6379
+
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak.bank.local:8084/realms/bank-realm
+        registration:
+          gateway:
+            provider: keycloak
+            client-id: bank-gateway
+            client-secret: ${KEYCLOAK_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+
+  cloud:
+    gateway:
+      default-filters:
+        - SaveSession
+      routes:
+        - id: account-service
+          uri: lb://ACCOUNT-SERVICE
+          predicates:
+            - Path=/accounts/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://bank-eureka:8761/eureka
