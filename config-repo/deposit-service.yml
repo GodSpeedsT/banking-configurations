@@ -6,9 +6,10 @@ spring:
     url: jdbc:postgresql://deposit-db:5432/deposit_db
     username: deposit_user
     password: password
+  spring:
   security:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://bank-keycloak:8084/realms/bank-realm
-          jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
+          issuer-uri: http://keycloak.bank.local:8084/realms/bank-realm
+
