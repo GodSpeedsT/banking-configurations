@@ -22,7 +22,7 @@ spring:
         registration:
           gateway:
             provider: keycloak
-            client-id: bank-gateway
+            client-id: web-client
             client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw
             scope:
               - openid
@@ -34,10 +34,10 @@ spring:
       default-filters:
         - SaveSession
       routes:
-        - id: account-service
-          uri: lb://ACCOUNT-SERVICE
+        - id: deposit-service
+          uri: lb://DEPOSIT-SERVICE
           predicates:
-            - Path=/accounts/**
+            - Path=/api/deposits/** , /api/deposit-types/**, /api/accounts/**
 
 eureka:
   client:
