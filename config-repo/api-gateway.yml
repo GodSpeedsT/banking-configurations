@@ -13,12 +13,12 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: http://keycloak.bank.local:8080/realms/bank-realm
-            jwk-set-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/certs
-            token-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/token
-            user-info-uri: http://bank-keycloak:8080/realms/bank-realm/protocol/openid-connect/userinfo
+            issuer-uri: http://localhost:8081/realms/bank-realm
+            jwk-set-uri: http://bank-keycloak:8081/realms/bank-realm/protocol/openid-connect/certs
+            token-uri: http://bank-keycloak:8081/realms/bank-realm/protocol/openid-connect/token
+            user-info-uri: http://bank-keycloak:8081/realms/bank-realm/protocol/openid-connect/userinfo
             
-            authorization-uri: http://keycloak.bank.local:8084/realms/bank-realm/protocol/openid-connect/auth
+            authorization-uri: http://localhost:8081/realms/bank-realm/protocol/openid-connect/auth
         registration:
           gateway:
             provider: keycloak
