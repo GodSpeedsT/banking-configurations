@@ -39,6 +39,9 @@ spring:
           predicates:
             - Path=/api/deposits/** , /api/deposit-types/**, /api/accounts/**
 
+server:
+  port: 8080
+
 eureka:
   client:
     service-url:
