@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/deposit_db
+    url: jdbc:postgresql://deposit_db:5433/deposit_db
     username: deposit_user
     password: password
   spring:
