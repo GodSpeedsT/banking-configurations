@@ -13,7 +13,7 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: http://bank-keycloak:8081/realms/bank-realm
+            issuer-uri: http://localhost:8081/realms/bank-realm
           
             #authorization-uri: http://localhost:8081/realms/bank-realm/protocol/openid-connect/auth
         registration:
