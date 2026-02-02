@@ -24,6 +24,7 @@ spring:
             provider: keycloak
             client-id: web-client
             client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw
+            authorization-grant-type: authorization_code
             scope:
               - openid
               - profile
@@ -31,7 +32,6 @@ spring:
 
   cloud:
     gateway:
-      authorization-grant-type: authorization_code
       default-filters:
         - SaveSession
       routes:
