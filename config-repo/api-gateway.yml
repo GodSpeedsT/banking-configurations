@@ -33,6 +33,7 @@ spring:
     gateway:
       default-filters:
         - SaveSession
+        - TokenRelay
       routes:
         - id: deposit-service
           uri: lb://DEPOSIT-SERVICE
