@@ -17,7 +17,7 @@ spring:
           
             #authorization-uri: http://localhost:8081/realms/bank-realm/protocol/openid-connect/auth
         registration:
-          gateway:
+          keycloak:
             provider: keycloak
             client-id: web-client
             client-secret: wzpcA6bISWDI3oTn6eJaXS2eIXIj6wKw
