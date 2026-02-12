@@ -6,7 +6,9 @@ spring:
     url: jdbc:postgresql://deposit-db:5432/deposit_db
     username: deposit_user
     password: password
-  spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
   security:
     oauth2:
       resourceserver:
